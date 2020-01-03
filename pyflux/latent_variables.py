@@ -1,4 +1,5 @@
 import numpy as np
+import scipy
 import pandas as pd
 
 from .covariances import acf
@@ -287,7 +288,7 @@ class LatentVariables(object):
 
                     if self.z_list[z-1].prior.transform_name is None:
                         x = np.linspace(self.z_list[z-1].value-self.z_list[z-1].std*3.5,self.z_list[z-1].value+self.z_list[z-1].std*3.5,100)
-                        plt.plot(x,mlab.normpdf(x,self.z_list[z-1].value,self.z_list[z-1].std),label=self.z_list[z-1].method + ' estimate of ' + self.z_list[z-1].name)
+                        plt.plot(x,scipy.stats.norm.pdf(x,self.z_list[z-1].value,self.z_list[z-1].std),label=self.z_list[z-1].method + ' estimate of ' + self.z_list[z-1].name)
                     else:
                         sims = self.z_list[z-1].prior.transform(np.random.normal(self.z_list[z-1].value,self.z_list[z-1].std,100000))
                         sns.distplot(sims, rug=False, hist=False,label=self.z_list[z-1].method + ' estimate of ' + self.z_list[z-1].name)
